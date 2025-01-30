@@ -28,3 +28,9 @@ Features:
 
 Users can search for books on the Book page, with results returning 100,000 records in less than one second thanks to the caching technology implemented.
 Borrowed books are displayed on the Borrowed page.
+
+
+
+Click [here](https://edtlib.vagweb.com/) to visit the live website.
+
+Click [here](https://edtlib.vagweb.com/sqlbackup.7z) to download database backup.
