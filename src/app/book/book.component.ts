@@ -22,6 +22,7 @@ export class BookComponent { //implements OnInit {
   keywords : string = ''
   errorMessage = ''
   pageSizeOptions =20;
+  noOfRecords = 0;
   isSearchedBooks : boolean = false;
   dataSource  = new MatTableDataSource<Books>();
   displayedColumns: string[] = ["isbn","bookTitle"];
@@ -49,7 +50,7 @@ export class BookComponent { //implements OnInit {
   ShowRecords() : string
   {
     if(this.isSearchedBooks)
-      return "Number of record(s): "+ this.dataSource.data.length;
+      return "Number of record(s): "+ this.noOfRecords;
     else
       return "";
   }
@@ -86,9 +87,9 @@ export class BookComponent { //implements OnInit {
             this.books = data;
             if(!environment.production)
               console.log(this.books);
-            let noOfRecords = this.books.length;
+            this.noOfRecords = this.books.length;
             this.dataSource.data = this.getTableData(0);
-            this.bottomPaginator.length = noOfRecords;
+            this.bottomPaginator.length = this.noOfRecords;
           } else {
             this.books = [];
             this.bottomPaginator.length = 0;
