@@ -1,0 +1,30 @@
+.userselect {
+  width:90%;
+}
+
+.headerLabel {
+  color:blue;
+  font-size: x-large;
+}
+
+
+.borrow_link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.borrow_link :hover {
+  cursor: pointer;
+  color: greenyellow;
+  text-decoration: underline;
+}
+
+
+.statusText {
+  color: green;
+}
+.errorText {
+  color: red;
+}

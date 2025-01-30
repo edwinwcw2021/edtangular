@@ -1,0 +1,43 @@
+
+<div class="container">
+  <div class="row">
+    <label class="headerLabel">All Borrowed Items</label>
+  </div>
+  <div class="main_form" >
+    <!-- <mat-form-field class="hidden" >
+      <mat-label>User Name</mat-label>
+      <mat-select [(value)]="UserId">
+        <mat-option value="-1">All Users</mat-option>
+        @for (u of users; track u) {
+          <mat-option [value]="u.userId">{{ u.userName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field> -->
+    <label *ngIf="statusText!=''" class="statusText" [textContent]="statusText"></label>
+    <label *ngIf="errorText!=''" class="errorText" [textContent]="errorText"></label>
+
+    <table mat-table [dataSource]="dataSource" class="transparent-background">
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef>User Name</th>
+        <td mat-cell *matCellDef="let x;">
+          {{x.userName}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="bookTitle">
+        <th mat-header-cell *matHeaderCellDef>Book Title </th>
+        <td mat-cell *matCellDef="let x">
+          {{x.bookTitle}}<br>
+          Due Date: {{x.dateExpectedReturn}} &nbsp;
+          <span class="borrow_link" (click)="Return(x.bookInventoryId)">Return</span>
+        </td>
+      </ng-container>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[20, 50, 100 ]" #bottomPaginator (page)="onPageChange($event)"
+      [hidden]="!dataSource.data.length"
+      showFirstLastButtons
+      aria-label="Select page">
+    </mat-paginator>
+
+  </div>
+</div>

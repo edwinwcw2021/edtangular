@@ -1,0 +1,35 @@
+<form novalidate autocomplete="off">
+  <mat-form-field appearance="fill" class="inputBox">
+    <mat-label>Book Search</mat-label>
+    <input matInput [(ngModel)]="keywords" name="booksearch" placeholder="Search Books by Keywords" class="inputBox">
+    <mat-icon matSuffix class="iconClose" (click)="onClearText()" *ngIf="keywords!=''">close</mat-icon>
+    <button  mat-raised-button (click)="GetData()" class="searchbutton"> Search
+    </button>
+  </mat-form-field>
+  <label *ngIf="errorMessage!=''" class="error_message">{{errorMessage}}</label>
+  <label [hidden]="!dataSource.data.length" class="no_message" [textContent]="ShowRecords()"></label>
+  <table mat-table [dataSource]="dataSource" class="transparent-background">
+    <ng-container matColumnDef="isbn">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let x;">
+        <img src="{{x.imageURLS}}"><br>
+        {{x.isbn}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="bookTitle">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let x">
+        {{x.bookTitle}}<br>
+        {{x.publisher}}<br>
+        {{x.bookAuthor}} &nbsp;&nbsp;, {{x.yearOfPublic}}<br>
+        <button mat-button matTooltip="Click to Check Availability" (click)="CheckAvailable(x.isbn)">Availability</button>
+      </td>
+    </ng-container>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[20, 50, 100 ]" #bottomPaginator (page)="onPageChange($event)"
+    [hidden]="!dataSource.data.length"
+    showFirstLastButtons
+    aria-label="Select page">
+  </mat-paginator>
+</form>

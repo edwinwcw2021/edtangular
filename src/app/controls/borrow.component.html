@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="main_form">
+    <mat-form-field class="userselect">
+      <mat-label>User Name</mat-label>
+      <mat-select [(value)]="UserId">
+        @for (u of users; track u) {
+          <mat-option [value]="u.userId">{{ u.userName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <label *ngIf="statusText!=''" class="statusText" [textContent]="statusText"></label>
+    <label *ngIf="errorText!=''" class="errorText" [textContent]="errorText"></label>
+    <ul>
+      @for (a of available; track a.bookInventoryId) {
+        <li >{{a.isbn}}-{{a.copiesNumber}}
+          (
+            <span *ngIf="!a.isBorrowed" class="borrow_link" (click)="Borrow(a.bookInventoryId)">Borrow</span>
+            <span *ngIf="a.isBorrowed" class="borrowed">Borrowed by {{a.userName}}&nbsp;</span>
+            <span *ngIf="a.isBorrowed" class="borrow_link" (click)="Return(a.bookInventoryId)">Return</span>
+          )
+      </li>
+      }
+    </ul>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeMe()">Close</button>
+    </div>
+  </div>
+</div>

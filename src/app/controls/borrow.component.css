@@ -1,0 +1,29 @@
+
+.borrow_link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.userselect {
+  width:90%;
+}
+
+.statusText {
+  color: green;
+}
+.errorText {
+  color: red;
+}
+
+.borrow_link :hover {
+  cursor: pointer;
+  color: greenyellow;
+  text-decoration: underline;
+}
+
+.borrowed {
+  cursor: default;
+  color: black;
+}

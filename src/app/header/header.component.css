@@ -1,0 +1,19 @@
+body {
+  background-color: #d4d4d4;
+
+}
+
+.buttonBack {
+  height: 80px;
+  background: transparent;
+}
+.transparent {
+  background: transparent;
+}
+
+.button_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+}
