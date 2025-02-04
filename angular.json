@@ -65,7 +65,7 @@
                   "inlineCritical": false
                 },
                 "fonts": true
-              },
+              }
             },
             "development": {
               "optimization": false,
