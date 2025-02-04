@@ -1,10 +1,8 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BorrowHistory, Users, vwAvailableBook } from '../model/model';
 import { ApicallService } from '../services/apicall.service';
 import { catchError, from } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoadingComponent } from '../controls/loading.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { LoadingService } from '../services/loading.service';
@@ -24,7 +22,6 @@ export class UserComponent implements OnInit {
   errorText:string = "";
 
   private apiServer = inject(ApicallService);
-  private loadingPanel = inject(MatDialog);
   dataSource  = new MatTableDataSource<vwAvailableBook>();
   pageSizeOptions =20;
   errorMessage = "";

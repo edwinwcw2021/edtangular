@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, Injectable, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ApicallService } from '../services/apicall.service';
 import { Books } from '../model/model';
 import { catchError, from } from 'rxjs';
@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LoadingComponent } from '../controls/loading.component';
 import { BorrowComponent } from '../controls/borrow.component';
 import { LoadingService } from '../services/loading.service';
 @Component({
