@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { LoadingComponent } from '../controls/loading.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-user',
@@ -16,7 +17,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
-  loadingRef : any;
   available: vwAvailableBook[]=[];
   users : Users[] = [];
   UserId : number = -1;
@@ -30,41 +30,24 @@ export class UserComponent implements OnInit {
   errorMessage = "";
   displayedColumns: string[] = ["userName","bookTitle"];
   @ViewChild('bottomPaginator') bottomPaginator!: MatPaginator;
+  private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
     this.refreshData();
-    // this.openLoading();
-    // this.apiServer.GetAllUsers().pipe<Users[]>(
-    //   catchError(error=> {
-    //     if(!environment.production)
-    //       console.log(error);
-    //     this.users = [];
-    //     this.closeLoading();
-    //     return from([]); } ))
-    //   .subscribe(data=>{
-    //     this.closeLoading();
-    //     if(data!=null) {
-    //       this.users = data;
-    //       this.refreshData();
-    //     } else {
-    //       this.users = [];
-    //     }
-    //   });
   }
 
   refreshData() {
-    this.openLoading();
-    // let para = this.paradata;
+    this.loadingService.openLoading();
     this.apiServer.GetAllBorrowedInventory().pipe<vwAvailableBook[]>(
       catchError(error=> {
         if(!environment.production)
           console.log(error);
         this.available = [];
         this.dataSource.data =[];
-        this.closeLoading();
+        this.loadingService.closeLoading();
         return from([]); } ))
       .subscribe(data=>{
-        this.closeLoading();
+        this.loadingService.closeLoading();
         if(data!=null) {
           this.available = data;
           if(!environment.production)
@@ -79,15 +62,15 @@ export class UserComponent implements OnInit {
   }
 
   Return(copy:number):void {
-    this.openLoading();
+    this.loadingService.openLoading();
     this.apiServer.BorrowBookReturn(copy).pipe<BorrowHistory>(
       catchError(error => {
         this.statusText = "";
         this.errorText = error["error"]["details"];
-        this.closeLoading();
+        this.loadingService.closeLoading();
         return from([]); } ))
       .subscribe(data=>{
-        this.closeLoading();
+        this.loadingService.closeLoading();
         if(data!=null) {
           this.errorText = "";
           this.statusText = "Return Successfully!!!";
@@ -110,14 +93,4 @@ export class UserComponent implements OnInit {
     let ret = !((!this.dataSource.data.length) && this.errorMessage=="");
     return ret;
   }
-  openLoading() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.loadingRef = this.loadingPanel.open(LoadingComponent, dialogConfig);
-  }
-  closeLoading() {
-    this.loadingRef.close();
-  }
-
 }

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Injectable, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ApicallService } from '../services/apicall.service';
 import { Books } from '../model/model';
 import { catchError, from } from 'rxjs';
@@ -8,6 +8,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../controls/loading.component';
 import { BorrowComponent } from '../controls/borrow.component';
+import { LoadingService } from '../services/loading.service';
 @Component({
   selector: 'app-book',
   standalone: false,
@@ -15,9 +16,8 @@ import { BorrowComponent } from '../controls/borrow.component';
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })
-export class BookComponent { //implements OnInit {
+export class BookComponent {
   books : Books[]
-  loadingRef : any;
   borrowRef : any;
   keywords : string = ''
   errorMessage = ''
@@ -29,15 +29,12 @@ export class BookComponent { //implements OnInit {
   @ViewChild('bottomPaginator') bottomPaginator!: MatPaginator;
 
   private apiServer = inject(ApicallService);
-  private loadingPanel = inject(MatDialog);
+  private loadingService = inject(LoadingService);
   private borrowPanel = inject(MatDialog);
-
 
   constructor() {
   }
 
-  ngOnInit(): void {
-  }
 
   CheckAvailable(isbn:string):void {
     this.openEdit(isbn);
@@ -56,14 +53,7 @@ export class BookComponent { //implements OnInit {
   }
 
   GetData(): void {
-    // if(this.keywords.length<3) {
-    //   this.errorMessage = "The minimum length for keywords is three characters.";
-    //   this.books = [];
-    //   this.dataSource.data = this.getTableData(0);
-    //   this.bottomPaginator.length = 0;
-    //   return;
-    // }
-    this.openLoading();
+    this.loadingService.openLoading();
     this.isSearchedBooks= true;
     this.errorMessage = "";
     this.apiServer.GetBooksByKeyWords(this.keywords).pipe<Books[]>(
@@ -78,11 +68,11 @@ export class BookComponent { //implements OnInit {
           }
           this.books = [];
           this.dataSource.data = this.getTableData(0);
-          this.closeLoading();
+          this.loadingService.closeLoading();
           this.bottomPaginator.length = 0;
           return from([]); } ))
         .subscribe(data=>{
-           this.closeLoading();
+           this.loadingService.closeLoading();
           if(data!=null) {
             this.books = data;
             if(!environment.production)
@@ -95,7 +85,6 @@ export class BookComponent { //implements OnInit {
             this.bottomPaginator.length = 0;
           }
         });
-
   }
 
   openEdit(isbn:string) {
@@ -106,16 +95,6 @@ export class BookComponent { //implements OnInit {
     dialogConfig.minWidth = 380;
     dialogConfig.minHeight = 440;
     this.borrowRef = this.borrowPanel.open(BorrowComponent, dialogConfig);
-  }
-
-  openLoading() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.loadingRef = this.loadingPanel.open(LoadingComponent, dialogConfig);
-  }
-  closeLoading() {
-    this.loadingRef.close();
   }
 
   onPageChange(e:PageEvent) {
