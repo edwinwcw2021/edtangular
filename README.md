@@ -29,6 +29,7 @@ Features:
 Users can search for books on the Book page, with results returning 100,000 records in less than one second thanks to the caching technology implemented.
 Borrowed books are displayed on the Borrowed page.
 
+Verion 1.1. Improve my REST API by handling empty search parameters effectively. Ensure that if a search keyword is missing or empty, the API returns appropriate results instead of errors. (Feb 4, 2025)
 
 
 Click [here](https://edtlib.vagweb.com/) to visit the live website.

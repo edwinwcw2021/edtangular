@@ -56,13 +56,13 @@ export class BookComponent { //implements OnInit {
   }
 
   GetData(): void {
-    if(this.keywords.length<3) {
-      this.errorMessage = "The minimum length for keywords is three characters.";
-      this.books = [];
-      this.dataSource.data = this.getTableData(0);
-      this.bottomPaginator.length = 0;
-      return;
-    }
+    // if(this.keywords.length<3) {
+    //   this.errorMessage = "The minimum length for keywords is three characters.";
+    //   this.books = [];
+    //   this.dataSource.data = this.getTableData(0);
+    //   this.bottomPaginator.length = 0;
+    //   return;
+    // }
     this.openLoading();
     this.isSearchedBooks= true;
     this.errorMessage = "";

@@ -16,6 +16,7 @@ import { ApicallService } from './services/apicall.service';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { UserComponent } from './user/user.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { UserComponent } from './user/user.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    HomeComponent,
     BookComponent,
     AboutComponent,
     BorrowComponent,
