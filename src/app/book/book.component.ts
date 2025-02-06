@@ -57,8 +57,6 @@ export class BookComponent {
     this.errorMessage = "";
     this.apiServer.GetBooksByKeyWords(this.keywords).pipe<Books[]>(
       catchError(error=> {
-          console.log(error['error']['detail'])
-          console.log(error['error']['detail']!=undefined)
           if(error['error']['detail']!=undefined) {
             this.errorMessage = error['error']['detail'];
           }

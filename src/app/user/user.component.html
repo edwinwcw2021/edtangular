@@ -4,15 +4,6 @@
     <label class="headerLabel">All Borrowed Items</label>
   </div>
   <div class="main_form" >
-    <!-- <mat-form-field class="hidden" >
-      <mat-label>User Name</mat-label>
-      <mat-select [(value)]="UserId">
-        <mat-option value="-1">All Users</mat-option>
-        @for (u of users; track u) {
-          <mat-option [value]="u.userId">{{ u.userName }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field> -->
     <label *ngIf="statusText!=''" class="statusText" [textContent]="statusText"></label>
     <label *ngIf="errorText!=''" class="errorText" [textContent]="errorText"></label>
 

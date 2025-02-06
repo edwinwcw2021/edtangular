@@ -4,7 +4,6 @@ import { BorrowHistory, BorrowInput, Users, vwAvailableBook } from '../model/mod
 import { ApicallService } from '../services/apicall.service';
 import { catchError, from } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoadingComponent } from './loading.component';
 import { LoadingService } from '../services/loading.service';
 
 @Component({
