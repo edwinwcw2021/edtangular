@@ -35,16 +35,21 @@ export class UserComponent implements OnInit {
 
   refreshData() {
     this.loadingService.openLoading();
+
     this.apiServer.GetAllBorrowedInventory().pipe<vwAvailableBook[]>(
       catchError(error=> {
         if(!environment.production)
           console.log(error);
+        if(error['error']['detail']!=undefined) {
+          this.errorText = error['error']['detail'];
+        }
         this.available = [];
         this.dataSource.data =[];
         this.loadingService.closeLoading();
         return from([]); } ))
       .subscribe(data=>{
         this.loadingService.closeLoading();
+        this.errorText = "";
         if(data!=null) {
           this.available = data;
           if(!environment.production)
@@ -64,6 +69,11 @@ export class UserComponent implements OnInit {
       catchError(error => {
         this.statusText = "";
         this.errorText = error["error"]["details"];
+        if(error['error']['detail']!=undefined) {
+          this.errorText = error['error']['detail'];
+        }
+        if(!environment.production)
+          console.log(error);
         this.loadingService.closeLoading();
         return from([]); } ))
       .subscribe(data=>{
@@ -87,7 +97,7 @@ export class UserComponent implements OnInit {
 
   showNoData() : boolean
   {
-    let ret = !((!this.dataSource.data.length) && this.errorMessage=="");
+    let ret = !((!this.dataSource.data.length) && this.errorText=="");
     return ret;
   }
 }
