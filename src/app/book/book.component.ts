@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { ApicallService } from '../services/apicall.service';
 import { Books } from '../model/model';
-import { catchError, from } from 'rxjs';
+import { catchError, from, take } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -55,7 +55,8 @@ export class BookComponent {
     this.loadingService.openLoading();
     this.isSearchedBooks= true;
     this.errorMessage = "";
-    this.apiServer.GetBooksByKeyWords(this.keywords).pipe<Books[]>(
+    this.apiServer.GetBooksByKeyWords(this.keywords).pipe(
+      take(1),
       catchError(error=> {
           if(error['error']['detail']!=undefined) {
             this.errorMessage = error['error']['detail'];
@@ -67,7 +68,7 @@ export class BookComponent {
           this.dataSource.data = this.getTableData(0);
           this.loadingService.closeLoading();
           this.bottomPaginator.length = 0;
-          return from([]); } ))
+          return from([]); } ),take(1))
         .subscribe(data=>{
            this.loadingService.closeLoading();
           if(data!=null) {

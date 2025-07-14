@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BorrowHistory, BorrowInput, Users, vwAvailableBook } from '../model/model';
 import { ApicallService } from '../services/apicall.service';
-import { catchError, from } from 'rxjs';
+import { catchError, from, take } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoadingService } from '../services/loading.service';
 
@@ -40,7 +40,8 @@ export class BorrowComponent implements OnInit {
         bookInventoryId: copy
     };
     this.loadingService.openLoading();
-    this.apiServer.BorrowAvailableBook(postData).pipe<BorrowHistory>(
+    this.apiServer.BorrowAvailableBook(postData).pipe(
+      take(1),
       catchError(error => {
         this.statusText = "";
         this.errorText = error["error"]["detail"];
@@ -58,8 +59,9 @@ export class BorrowComponent implements OnInit {
 
   Return(copy:number):void {
     this.loadingService.openLoading();
-    this.apiServer.BorrowBookReturn(copy).pipe<BorrowHistory>(
-      catchError(error => {
+    this.apiServer.BorrowBookReturn(copy).pipe(
+        take(1),
+        catchError(error => {
         this.statusText = "";
         this.errorText = error["error"]["details"];
         this.loadingService.closeLoading();
@@ -76,7 +78,8 @@ export class BorrowComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingService.openLoading();
-    this.apiServer.GetAllUsers().pipe<Users[]>(
+    this.apiServer.GetAllUsers().pipe(
+      take(1),
       catchError(error=> {
         if(!environment.production)
           console.log(error);
@@ -97,7 +100,8 @@ export class BorrowComponent implements OnInit {
   refreshAvailable() {
     this.loadingService.openLoading();
     let para = this.paradata;
-    this.apiServer.GetAvailableInventoryByISBN(para).pipe<vwAvailableBook[]>(
+    this.apiServer.GetAvailableInventoryByISBN(para).pipe(
+      take(1),
       catchError(error=> {
         if(!environment.production)
           console.log(error);

@@ -46,7 +46,8 @@ export class ApicallService {
     formData.append('BookInventoryId', borrow.bookInventoryId);
     formData.append('UserId', borrow.userId);
     const sUrl = this._baseUrl + `BorrowAvailableBook`;
-    return this.http.post<BorrowHistory>(sUrl, formData);
+    let headersWithoutContentType = this._headers.delete('Content-Type');
+    return this.http.post<BorrowHistory>(sUrl, formData, { headers: headersWithoutContentType});
   }
 
   BorrowBookReturn(bookInventoryId:number):Observable<BorrowHistory> {

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { BorrowHistory, Users, vwAvailableBook } from '../model/model';
 import { ApicallService } from '../services/apicall.service';
-import { catchError, from } from 'rxjs';
+import { catchError, from, take } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -36,7 +36,8 @@ export class UserComponent implements OnInit {
   refreshData() {
     this.loadingService.openLoading();
 
-    this.apiServer.GetAllBorrowedInventory().pipe<vwAvailableBook[]>(
+    this.apiServer.GetAllBorrowedInventory().pipe(
+      take(1),
       catchError(error=> {
         if(!environment.production)
           console.log(error);
@@ -65,7 +66,8 @@ export class UserComponent implements OnInit {
 
   Return(copy:number):void {
     this.loadingService.openLoading();
-    this.apiServer.BorrowBookReturn(copy).pipe<BorrowHistory>(
+    this.apiServer.BorrowBookReturn(copy).pipe(
+      take(1),
       catchError(error => {
         this.statusText = "";
         this.errorText = error["error"]["details"];
