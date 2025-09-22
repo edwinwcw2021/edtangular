@@ -1,0 +1,20 @@
+# Last 2 versions of all browsers that have over 0.5% market share.
+> 0.5%
+
+# Last 2 versions of major browsers.
+last 2 versions
+
+# Do not include any versions of browsers in the 'dead' list (no longer supported).
+not dead
+
+# Specific browsers
+# IE 11
+IE 11
+
+# The latest version of Firefox on the current OS
+Firefox ESR
+
+# The latest version of Safari
+last 2 Safari versions
+iOS >= 12
+Safari >= 12
