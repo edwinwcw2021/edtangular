@@ -20,40 +20,37 @@ export class ApicallService {
   GetBooksByKeyWords(keywords:string):Observable<Books[]> {
     let httpParams = new HttpParams()
       .set('keyword',  keywords)
-    const sUrl = this._baseUrl + `GetBooksByKeyWords`;
+    const sUrl = this._baseUrl + `book/search`;
     return this.http.get<Books[]>(sUrl, { params: httpParams, headers:this._headers });
   }
 
   GetAllUsers():Observable<Users[]> {
-    const sUrl = this._baseUrl + `GetAllUsers`;
+    const sUrl = this._baseUrl + `users`;
     return this.http.get<Users[]>(sUrl, { headers:this._headers });
   }
 
   GetAllBorrowedInventory():Observable<vwAvailableBook[]> {
-    const sUrl = this._baseUrl + `GetAllBorrowedInventory`;
+    const sUrl = this._baseUrl + `book/all`;
     return this.http.get<vwAvailableBook[]>(sUrl, { headers:this._headers });
   }
 
   GetAvailableInventoryByISBN(isbn:string):Observable<vwAvailableBook[]> {
-    const sUrl = this._baseUrl + `GetAvailableInventoryByISBN`;
-    let httpParams = new HttpParams()
-      .set('ISBN',  isbn)
-    return this.http.get<vwAvailableBook[]>(sUrl, { params: httpParams, headers:this._headers });
+    const sUrl = this._baseUrl + `book/${isbn}`;
+    return this.http.get<vwAvailableBook[]>(sUrl, { headers:this._headers });
   }
 
   BorrowAvailableBook(borrow:BorrowInput):Observable<BorrowHistory> {
     var formData: any = new FormData();
-    formData.append('BookInventoryId', borrow.bookInventoryId);
     formData.append('UserId', borrow.userId);
-    const sUrl = this._baseUrl + `BorrowAvailableBook`;
+    formData.append('BookInventoryId', borrow.bookInventoryId);    
+    const sUrl = this._baseUrl + `book`;
     let headersWithoutContentType = this._headers.delete('Content-Type');
     return this.http.post<BorrowHistory>(sUrl, formData, { headers: headersWithoutContentType});
   }
 
   BorrowBookReturn(bookInventoryId:number):Observable<BorrowHistory> {
-    var formData: any = new FormData();
-    formData.append('sBookInventoryId', bookInventoryId);
-    const sUrl = this._baseUrl + `BorrowBookReturn`;
-    return this.http.put<BorrowHistory>(sUrl, formData);
+    const sUrl = this._baseUrl + `book/${bookInventoryId}`;
+    let headersWithoutContentType = this._headers.delete('Content-Type');
+    return this.http.put<BorrowHistory>(sUrl, { headers: headersWithoutContentType});
   }
 }
